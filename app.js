@@ -17,6 +17,7 @@ const keys = require('./config/keys');
 mongoose.connect(keys.mongoURL, { useNewUrlParser: true })
     .then(() => console.log('MongoDB has been connected'))
     .catch(error => console.error(error));
+mongoose.set('useCreateIndex', true);
 
 app.use(morgan('dev'));
 app.use(cors());
