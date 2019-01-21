@@ -1,6 +1,7 @@
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
+const mongoose = require('mongoose');
 
 const express = require('express');
 const app = express();
@@ -10,6 +11,12 @@ const analyticsRoutes = require('./routes/analytics');
 const categoryRoutes = require('./routes/category');
 const orderRoutes = require('./routes/order');
 const positionRoutes = require('./routes/position');
+
+const keys = require('./config/keys');
+
+mongoose.connect(keys.mongoURL, { useNewUrlParser: true })
+    .then(() => console.log('MongoDB has been connected'))
+    .catch(error => console.error(error));
 
 app.use(morgan('dev'));
 app.use(cors());
