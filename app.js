@@ -2,6 +2,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const passport = require('passport');
 
 const express = require('express');
 const app = express();
@@ -18,6 +19,9 @@ mongoose.connect(keys.mongoURL, { useNewUrlParser: true })
     .then(() => console.log('MongoDB has been connected'))
     .catch(error => console.error(error));
 mongoose.set('useCreateIndex', true);
+
+app.use(passport.initialize());
+require('./middleware/passport')(passport);
 
 app.use(morgan('dev'));
 app.use(cors());
