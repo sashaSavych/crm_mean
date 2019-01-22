@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const keys = require('../config/keys');
 
 const User = require('../models/user');
+const errorHandler = require('../utils/errorHandler');
 
 module.exports.login = async (req, res) => {
     const candidate = await User.findOne({ email: req.body.email });
@@ -45,7 +46,7 @@ module.exports.register =  async (req, res) => {
             await user.save();
             res.status(201).json(user);
         } catch (error) {
-            console.error('User has not been created!!!')
+            errorHandler(res, error);
         }
     }
 };
