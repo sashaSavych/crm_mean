@@ -14,7 +14,7 @@ export class SiteLayoutComponent implements AfterViewInit {
     { link: '/analytics', name: 'Analytics'},
     { link: '/history', name: 'History'},
     { link: '/order', name: 'Order'},
-    { link: '/categories', name: 'Assortment'}
+    { link: '/categories', name: 'Categories'}
   ];
 
   @ViewChild('floatingEl') floatingEl: ElementRef;

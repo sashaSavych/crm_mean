@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CategoriesService } from '../shared/services/categories.service';
+import { Category } from '../shared/models/entities.interface';
 
 @Component({
   selector: 'app-categories-page',
@@ -6,10 +8,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./categories-page.component.scss']
 })
 export class CategoriesPageComponent implements OnInit {
+  showLoader = false;
+  categories: Category[] = [];
 
-  constructor() { }
+  constructor(private categoriesService: CategoriesService) { }
 
   ngOnInit() {
+    this.showLoader = true;
+    this.categoriesService.getAll().subscribe(categories => {
+      this.showLoader = false;
+      this.categories = categories;
+    });
   }
 
 }
