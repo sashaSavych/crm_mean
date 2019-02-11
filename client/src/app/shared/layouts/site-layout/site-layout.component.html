@@ -1,3 +1,33 @@
-<p>
-  site-layout works!
-</p>
+<!--SIDEBAR-->
+<ul class="sidenav sidenav-fixed a-sidenav">
+  <h4>MEAN</h4>
+  <li
+    class="bold"
+    *ngFor="let menuLink of menuLinks"
+    routerLinkActive="active">
+    <a [routerLink]="[menuLink.link]" class="waves-effect waves-orange">
+      {{menuLink.name}}
+    </a>
+  </li>
+  <li
+    class="bold last"
+    (click)="logout($event)">
+    <a href="#" class="waves-effect waves-orange">Log out</a>
+  </li>
+</ul>
+
+<!--CONTENT-->
+<main class="content">
+  <router-outlet></router-outlet>
+</main>
+
+<!--Floating button-->
+<div #floatingEl class="fixed-action-btn">
+  <a class="btn-floating btn-large red">
+    <i class="large material-icons">add</i>
+  </a>
+  <ul>
+    <li><a class="btn-floating green" routerLink="/order"><i class="material-icons">assignment</i></a></li>
+    <li><a class="btn-floating blue" routerLink="/categories/new"><i class="material-icons">list</i></a></li>
+  </ul>
+</div>
