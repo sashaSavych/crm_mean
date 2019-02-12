@@ -2,7 +2,7 @@
   <h4>Categories</h4>
   <button
     class="waves-effect waves-light btn grey darken-1"
-    routerLink="/categories/new">Add category</button>
+    routerLink="/category/new">Add category</button>
 </div>
 
 <div *ngIf="categories$ | async as categories; else preloader" class="row">
@@ -10,7 +10,7 @@
     <div class="collection" *ngIf="categories.length; else empty">
       <a
         *ngFor="let category of categories"
-        [routerLink]="['/categories', category._id]"
+        [routerLink]="['/category', category._id]"
         class="collection-item">
         {{category.name}}
       </a>

@@ -15,6 +15,24 @@ export class CategoriesService {
   }
 
   getOneById(id: string): Observable<Category> {
-    return this.httpClient.get<Category>(`/api/category${id}`);
+    return this.httpClient.get<Category>(`/api/category/${id}`);
+  }
+
+  create(name: string, file?: File): Observable<Category> {
+    const categoryFD = new FormData();
+    if (file) {
+      categoryFD.append('image', file, file.name)
+    }
+    categoryFD.append('name', name);
+    return this.httpClient.post<Category>('/api/category', categoryFD);
+  }
+
+  update(id: string, name: string, file?: File): Observable<Category> {
+    const categoryFD = new FormData();
+    if (file) {
+      categoryFD.append('image', file, file.name)
+    }
+    categoryFD.append('name', name);
+    return this.httpClient.patch<Category>(`/api/category/${id}`, categoryFD);
   }
 }
