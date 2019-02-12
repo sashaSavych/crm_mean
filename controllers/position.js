@@ -29,7 +29,7 @@ module.exports.create = async (req, res) => {
 
 module.exports.remove = async (req, res) => {
     try {
-        await Position.remove({ id: req.params.id} );
+        await Position.remove({ _id: req.params.id} );
         res.status(200).json({
             message: 'The position has been removed.'
         })

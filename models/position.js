@@ -6,9 +6,13 @@ const positionSchema = new Schema({
         type: String,
         required: true
     },
-    imageSrc: {
-        type: String,
-        default: ''
+    cost: {
+        type: Number,
+        default: 0
+    },
+    category: {
+        ref: 'categories',
+        type: Schema.Types.ObjectId
     },
     user: {
         ref: 'users',

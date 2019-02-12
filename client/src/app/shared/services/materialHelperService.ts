@@ -1,4 +1,12 @@
+import { ElementRef } from '@angular/core';
+
 declare var M;
+
+export interface MaterialModalInstance {
+  open?(): void;
+  close?(): void;
+  destroy?(): void;
+}
 
 export class MaterialHelperService {
   static showToastMessage(message: string): void {
@@ -11,5 +19,9 @@ export class MaterialHelperService {
 
   static updateTextFields(): void {
     M.updateTextFields();
+  }
+
+  static initModal(positionModal: ElementRef): MaterialModalInstance {
+    return M.Modal.init(positionModal.nativeElement);
   }
 }
