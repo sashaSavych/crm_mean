@@ -5,17 +5,23 @@
     routerLink="/categories/new">Add category</button>
 </div>
 
-<div *ngIf="!showLoader" class="row">
+<div *ngIf="categories$ | async as categories; else preloader" class="row">
   <div class="col s12">
-    <div class="collection">
+    <div class="collection" *ngIf="categories.length; else empty">
       <a
         *ngFor="let category of categories"
-        href="#!"
+        [routerLink]="['/categories', category._id]"
         class="collection-item">
         {{category.name}}
       </a>
     </div>
+    <ng-template #empty>
+      <div class="center">There is no categories...</div>
+    </ng-template>
   </div>
 </div>
 
-<app-preloager *ngIf="showLoader"></app-preloager>
+<ng-template #preloader>
+  <app-preloager></app-preloager>
+</ng-template>
+
