@@ -4,9 +4,9 @@
     <i class="material-icons">keyboard_arrow_right</i>
     {{ isNew ? 'Add category' : 'Edit category'}}
   </h4>
-  <span>
-    <button class="btn btn-small red">
-      <i class="material-icons">delete</i>
+  <span >
+    <button *ngIf="!isNew" class="btn btn-small red">
+      <i class="material-icons" (click)="deleteCategory()">delete</i>
     </button>
   </span>
 </div>

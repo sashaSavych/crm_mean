@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { switchMap, tap } from 'rxjs/operators';
 import { CategoriesService } from '../../shared/services/categories.service';
@@ -7,6 +7,8 @@ import { Observable, of } from 'rxjs';
 import { Category } from '../../shared/models/entities.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MaterialHelperService } from '../../shared/services/materialHelperService';
+import { del } from 'selenium-webdriver/http';
+import { ResponseMessage } from '../../shared/models/helper.interface';
 
 @Component({
   selector: 'app-categories-form',
@@ -23,7 +25,8 @@ export class CategoriesFormComponent implements OnInit {
   @ViewChild('pictureInput') pictureInput: ElementRef;
 
   constructor(private route: ActivatedRoute,
-              private categoriesService: CategoriesService) { }
+              private categoriesService: CategoriesService,
+              private router: Router) { }
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -87,5 +90,16 @@ export class CategoriesFormComponent implements OnInit {
       this.currentFilePreview = <string>reader.result;
     };
     reader.readAsDataURL(file);
+  }
+
+  deleteCategory() {
+    const deletingConfirmed = window.confirm(`You are deleting the category ${this.currentCategory.name}. Sure?`);
+    if (deletingConfirmed) {
+      this.categoriesService.delete(this.currentCategory._id).subscribe(
+        (response: ResponseMessage) => MaterialHelperService.showToastMessage(response.message),
+        (error: HttpErrorResponse) => MaterialHelperService.showToastMessage(error.message),
+        () => this.router.navigate(['categories'])
+      )
+    }
   }
 }
