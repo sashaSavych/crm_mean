@@ -3,6 +3,9 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { MaterialHelperService, MaterialModalInstance } from '../shared/services/materialHelperService';
 import { OrderService } from '../shared/services/order.service';
+import { Order, OrderPosition } from '../shared/models/entities.interface';
+import { OrdersService } from '../shared/services/orders.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-order-page',
@@ -17,7 +20,8 @@ export class OrderPageComponent implements OnInit, AfterViewInit, OnDestroy {
   modalWindow: MaterialModalInstance;
 
   constructor(private router: Router,
-              private orderService: OrderService) { }
+              private orderService: OrderService,
+              private ordersService: OrdersService) { }
 
   ngOnInit() {
     this.router.events.pipe(
@@ -30,7 +34,21 @@ export class OrderPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onModalSubmit() {
-    this.modalWindow.close();
+    const newOrder: Order = {
+      list: this.orderService.list.map(item => {
+        delete item._id;
+        return item;
+      })
+    };
+    this.ordersService.create(newOrder).subscribe(
+      (order: Order) => MaterialHelperService.showToastMessage(`The order #${order.order} was added`),
+      (error: HttpErrorResponse) => {
+        MaterialHelperService.showToastMessage(error.message);
+        this.orderService.clear();
+      },
+      () => this.modalWindow.close()
+
+    );
   }
 
   ngAfterViewInit() {
@@ -39,5 +57,10 @@ export class OrderPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     this.modalWindow.destroy();
+  }
+
+  removePosition(orderPosition: OrderPosition) {
+    const deletingConfirmed = window.confirm(`You are removing ${orderPosition.name}. Sure?`);
+    if (deletingConfirmed) this.orderService.removeOrder(orderPosition);
   }
 }

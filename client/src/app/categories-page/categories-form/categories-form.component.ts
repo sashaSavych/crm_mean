@@ -60,7 +60,7 @@ export class CategoriesFormComponent implements OnInit {
   }
 
   onSubmit() {
-    let obs$: Observable;
+    let obs$: Observable<Category>;
     if (this.isNew) {
       obs$ = this.categoriesService.create(this.form.value.name, this.currentFile);
     } else {
