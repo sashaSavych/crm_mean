@@ -3,6 +3,7 @@ import { MaterialHelperService, MaterialModalInstance } from '../shared/services
 import { OrdersService } from '../shared/services/orders.service';
 import { Subscription } from 'rxjs';
 import { Order } from '../shared/models/entities.interface';
+import { Filter } from '../shared/models/helper.interface';
 
 const STEP = 2;
 
@@ -19,6 +20,7 @@ export class HistoryPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   offset = 0;
   limit = STEP;
+  filterData: Filter = {};
 
   orders: Order[] = [];
   gettingOrders = false;
@@ -33,10 +35,10 @@ export class HistoryPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private getAllOrders() {
-    const params = {
+    const params = Object.assign({}, this.filterData, {
       offset: this.offset,
       limit: this.limit
-    };
+    });
     this.gettingOrders = true;
     this.sub$ = this.ordersService.getAllOrders(params).subscribe(
       (orders: Order[]) => {
@@ -59,5 +61,16 @@ export class HistoryPageComponent implements OnInit, AfterViewInit, OnDestroy {
   loadMore() {
     this.offset += STEP;
     this.getAllOrders();
+  }
+
+  applyFilter(filterData: Filter) {
+    this.orders = [];
+    this.offset = 0;
+    this.filterData = filterData;
+    this.getAllOrders();
+  }
+
+  isApplied(): boolean {
+    return !!Object.keys(this.filterData).length;
   }
 }

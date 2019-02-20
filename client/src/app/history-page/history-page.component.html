@@ -3,7 +3,8 @@
   <button
     class="btn btn-small"
     [ngClass]="{
-      'active': isFilterVisible
+      'active': isFilterVisible,
+      'red': isApplied()
     }"
     data-tooltip="Open filter"
     data-position="left"
@@ -13,7 +14,7 @@
   </button>
 </div>
 
-<app-history-filter *ngIf="isFilterVisible"></app-history-filter>
+<app-history-filter *ngIf="isFilterVisible" (onFilter)="applyFilter($event)"></app-history-filter>
 <app-history-list [orders]="orders"></app-history-list>
 
 <div *ngIf="!noMoreOrders" class="center mb2">
