@@ -7,7 +7,6 @@ import { Observable, of } from 'rxjs';
 import { Category } from '../../shared/models/entities.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MaterialHelperService } from '../../shared/services/materialHelperService';
-import { del } from 'selenium-webdriver/http';
 import { ResponseMessage } from '../../shared/models/helper.interface';
 
 @Component({

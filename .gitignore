@@ -8,3 +8,6 @@
 
 # IDEs and editors
 .idea/
+
+# security
+/config/keys.dev.js
