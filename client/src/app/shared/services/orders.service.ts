@@ -18,7 +18,7 @@ export class OrdersService {
   }
 
   create(order: Order): Observable<Order> {
-    return this.httpClient.post('/api/order', order)
+    return this.httpClient.post<Order>('/api/order', order);
   }
 
 }
